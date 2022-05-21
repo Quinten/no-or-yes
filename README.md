@@ -1,2 +1,2 @@
-# no-or-yes
-The search engine which only answers with yes or no
+# No or Yes
+This search engine only answers with no or yes

@@ -3,9 +3,32 @@
     <head>
         <meta charset="utf-8">
         <title>No or Yes</title>
-        <meta name="description" content="The search engine which only answers with yes or no">
+        <meta name="description" content="This search engine only answers with no or yes">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+        <h1>No or Yes</h1>
+        <p>This search engine only answers with no or yes</p>
+        <div style="display: flex">
+            <input type="text" style="flex-grow: 1" />
+            <span style="margin-left: 1em">?</span>
+        </div>
+        <script>
+            (_ => {
+                let input = document.querySelector('input');
+                let output = document.querySelector('h1');
+                input.focus();
+                input.addEventListener('keyup', _ => {
+                    let question = input.value.replace(/\?/gm, '');
+                    let answer = ['Yes', 'No'][
+                        question.split('').reduce(
+                            (p, c) => p + c.charCodeAt(0),
+                            0
+                        ) % 2
+                    ];
+                    output.innerHTML = answer;
+                });
+            })();
+        </script>
     </body>
 </html>
