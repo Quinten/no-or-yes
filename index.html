@@ -24,7 +24,7 @@
                 q.replace(/\?/gm, '').split('').reduce((p, c) => p + c.charCodeAt(0), 0) % 2
             ];
             let search = _ => {
-                let q = window.location.search;
+                let q = window.location.search.split('&')[0];
                 input.value = decodeURI(q.replace(/^\?/gm, ''));
                 output.innerHTML = answer(input.value);
             };
