@@ -5,30 +5,38 @@
         <title>No or Yes</title>
         <meta name="description" content="This search engine only answers with no or yes">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body, input { font-size: 16px; font-family: sans-serif; }
+        </style>
     </head>
     <body>
         <h1>No or Yes</h1>
-        <p>This search engine only answers with no or yes</p>
+        <p style="opacity: .35">This search engine only answers with no or yes</p>
         <div style="display: flex">
             <input type="text" style="flex-grow: 1" />
             <span style="margin-left: 1em">?</span>
         </div>
         <script>
-            (_ => {
-                let input = document.querySelector('input');
-                let output = document.querySelector('h1');
-                input.focus();
-                input.addEventListener('keyup', _ => {
-                    let question = input.value.replace(/\?/gm, '');
-                    let answer = ['Yes', 'No'][
-                        question.split('').reduce(
-                            (p, c) => p + c.charCodeAt(0),
-                            0
-                        ) % 2
-                    ];
-                    output.innerHTML = answer;
-                });
-            })();
+            let input = document.querySelector('input');
+            input.focus();
+            let output = document.querySelector('h1');
+            let answer = q => ['Yes', 'No'][
+                q.replace(/\?/gm, '').split('').reduce((p, c) => p + c.charCodeAt(0), 0) % 2
+            ];
+            let search = _ => {
+                let q = window.location.search;
+                input.value = decodeURI(q.replace(/^\?/gm, ''));
+                output.innerHTML = answer(input.value);
+            };
+            input.addEventListener('keyup', _ => {
+                let q = input.value;
+                window.history.pushState({}, null, '?' + encodeURI(q));
+                search();
+            });
+            if (window.location.search) {
+                search();
+            }
+            window.addEventListener('popstate', search);
         </script>
     </body>
 </html>
